@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
+    <title>Tienda de Productos APC</title>
+</head>
+<body>
+    <header>
+        <h1>Tienda de Productos APC</h1>
+        <nav>
+            <ul>
+                <li><a href="{{ url_for('home') }}">Inicio</a></li>
+                <li><a href="{{ url_for('productos') }}">Productos</a></li>
+                <li><a href="{{ url_for('carrito') }}">Carrito</a></li>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('profile') }}">Perfil</a></li>
+                    <li><a href="{{ url_for('logout') }}">Cerrar sesión</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login') }}">Iniciar sesión</a></li>
+                    <li><a href="{{ url_for('register') }}">Registrarse</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul class="flashes">
+            {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block content %}
+            <div>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <ul class="flashes">
+                            {% for category, message in messages %}
+                                <li class="{{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Tienda de Productos APC. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

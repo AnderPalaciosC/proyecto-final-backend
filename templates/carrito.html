@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Carrito de compras</h1>
+
+{% if productos %}
+    <ul>
+        {% for producto in productos %}
+        <li>
+            <h2>{{ producto.nombre }}</h2>
+            <p>Precio: €{{ producto.precio }}</p>
+            <p>Stock: {{ producto.stock }} disponibles</p>
+            <form action="{{ url_for('update_cart', producto_id=producto.id) }}" method="post">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" name="cantidad" value="{{ producto.cantidad }}" min="1" max="{{ producto.stock }}">
+                <button type="submit">Actualizar cantidad</button>
+            </form>            
+            <form action="{{ url_for('remove_from_cart', producto_id=producto.id) }}" method="post">
+                <button type="submit">Eliminar</button>
+            </form>
+            {% if producto.stock == 0 %}
+                <p style="color: red;">Sin stock</p>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h3>Total: €{{ total }}</h3>
+
+    <form action="{{ url_for('checkout') }}" method="post">
+        <button type="submit" {% if hay_productos_sin_stock %}disabled{% endif %}>Proceder al pago</button>
+    </form>    
+
+{% else %}
+    <p>El carrito está vacío.</p>
+{% endif %}
+
+<a href="{{ url_for('home') }}">Volver a inicio</a>
+<a href="{{ url_for('productos') }}">Seguir comprando</a>
+{% endblock %}

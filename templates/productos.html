@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Productos</h1>
+<ul>
+    {% for producto in productos %}
+    <li>
+        <h2>{{ producto.nombre }}</h2>
+        <p>Precio: €{{ producto.precio }}</p>
+        <p>Stock: {{ producto.stock }} disponibles</p>
+        
+        {% if producto.stock > 0 %}
+            <form action="{{ url_for('add_to_cart', producto_id=producto.id) }}" method="post">
+                <label for="cantidad">Cantidad:</label>
+                <input type="number" name="cantidad" value="1" min="1" max="{{ producto.stock }}">
+                <button type="submit">Añadir al carrito</button>
+            </form>
+        {% else %}
+            <p style="color: red;">Producto sin stock</p>
+            <button disabled>No disponible</button>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="{{ url_for('home') }}">Volver a la página principal</a>
+{% endblock %}

@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "sass": "^1.79.3",
+    "sweetalert2": "^11.14.1"
+  },
+  "devDependencies": {
+    "imagemin": "^9.0.0",
+    "imagemin-mozjpeg": "^10.0.0",
+    "imagemin-pngquant": "^10.0.0"
+  }
+}

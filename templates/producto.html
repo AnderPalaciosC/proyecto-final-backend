@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ producto.nombre }}</h2>
+    <p>{{ producto.descripcion }}</p>
+    <p>Precio: €{{ producto.precio }}</p>
+    <form action="{{ url_for('add_to_cart', producto_id=producto.id) }}" method="post">
+        <button type="submit">Añadir al carrito</button>
+    </form>
+{% endblock %}
